@@ -1,27 +1,27 @@
 import pandas as pd
-import numpy as np
-from sklearn.linear_model import LinearRegression
 import pickle
 
+
 def train():
-# Read data
-    df = pd.read_csv('data/data_train.csv')
+    # Read data
+    df = pd.read_csv('data/AUS_Prepared.csv')
 
-# Reshape data for modelling
-    X = df['x'].values.reshape(-1,1)
-    y = df['y'].values.reshape(-1,1)
+    X = df[['Humidity3pm']]
+    y = df[['RainTomorrow']]
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import accuracy_score
+    import time
 
-# Instatiate the model
-    our_model = LinearRegression()
+    t0 = time.time()
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    clf_logreg = LogisticRegression(random_state=0)
+    clf_logreg.fit(x_train, y_train)
+    y_pred = clf_logreg.predict(x_test)
+    score = accuracy_score(y_test, y_pred)
+    print('Accuracy :', score)
+    print('Time taken :', time.time() - t0)
 
-# Fit the model
-    our_model.fit(X, y)
-
-# Print coefficient
-    print('y = a*x + b')
-    print('a = ', our_model.coef_[0][0])
-    print('b = ', our_model.intercept_[0])
-
-# Export the model
+    # Export the model
     print('...Exporting the model...')
-    pickle.dump(our_model, open('model/model_1.0.pkl', 'wb'))
+    pickle.dump(clf_logreg, open('model/model_1.2.pkl', 'wb'))
