@@ -3,7 +3,6 @@ import pickle
 
 
 def train():
-    # Read data
     df = pd.read_csv('data/AUS_Prepared.csv')
 
     X = df[['Humidity3pm']]
@@ -22,6 +21,5 @@ def train():
     print('Accuracy :', score)
     print('Time taken :', time.time() - t0)
 
-    # Export the model
     print('...Exporting the model...')
     pickle.dump(clf_logreg, open('model/model_1.2.pkl', 'wb'))
