@@ -1,5 +1,6 @@
 import pandas as pd
 import pickle
+from datetime import datetime
 
 
 def train():
@@ -22,4 +23,6 @@ def train():
     print('Time taken :', time.time() - t0)
 
     print('...Exporting the model...')
-    pickle.dump(clf_logreg, open('model/model_1.2.pkl', 'wb'))
+    #timestamp
+    now = datetime.now().strftime("%Y-%d-%m_%H-%M-%S")
+    pickle.dump(clf_logreg, open('model/model_'+now+'.pkl', 'wb'))
