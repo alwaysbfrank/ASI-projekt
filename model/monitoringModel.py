@@ -2,13 +2,13 @@ import numpy as np
 import pandas as pd
 import pickle
 from sklearn.metrics import mean_squared_error, r2_score
-from datetime import date, datetime
+from datetime import datetime
 import os.path
 
 
 def monitoring():
     # Load model
-    model = pickle.load(open("model/model_1.0.pkl", 'rb'))
+    model = pickle.load(open("model/model_1.2.pkl", 'rb'))
 
     # Read test data
     batch_no = 4
@@ -41,3 +41,4 @@ def monitoring():
         eval_df.to_csv('data/model_eval.csv', mode='a', index=False, header=False)
     else:
         eval_df.to_csv('data/model_eval.csv', index=False)
+    return batch_no
