@@ -6,6 +6,8 @@ from datetime import datetime
 import os.path
 import glob
 
+from model import readModel
+
 
 def monitoring(batch_no):
     # Load model
@@ -20,13 +22,16 @@ def monitoring(batch_no):
 
     # Read test data
     test_data = pd.read_csv(f'data/cutted/weatherAUS_{batch_no}.csv')
+    test_data.to_csv('data/weatherAUS_current_all.csv', mode='a', index=False, header=False)
+    readModel.read()
+    all_data = pd.read_csv(f'data/AUS_Prepared.csv')
 
-    X = test_data['Humidity3pm'].values.reshape(-1,1)
-    y = test_data['RainTomorrow'].values.reshape(-1,1)
+    X = all_data['Humidity3pm'].values.reshape(-1,1)
+    y = all_data['RainTomorrow'].values.reshape(-1,1)
 
-    eval_df = pd.DataFrame()
-    evaluate_metrics(batch_no, last_file_timestamp, model, y, 'rain', eval_df)
-    evaluate_metrics(batch_no, last_file_timestamp, model, X, 'humidity', eval_df)
+    eval_df = pd.DataFrame(columns=['time_stamp','version','batch','metric','score'])
+    eval_df = evaluate_metrics(batch_no, last_file_timestamp, model, y, 'rain', eval_df)
+    eval_df = evaluate_metrics(batch_no, last_file_timestamp, model, X, 'humidity', eval_df)
 
     # Save evaluation to file
     evaluation_file_name = 'data/model_eval.csv'
@@ -34,9 +39,8 @@ def monitoring(batch_no):
     if os.path.isfile(evaluation_file_name):
         eval_df.to_csv(evaluation_file_name, mode='a', index=False, header=False)
     else:
-        eval_df.to_csv(evaluation_file_name, index=False)
+        eval_df.to_csv(evaluation_file_name, index=False, header=True)
 
-    test_data.to_csv('data/weatherAUS_current_all.csv', mode='a', idex=False, header=False)
     return batch_no
 
 

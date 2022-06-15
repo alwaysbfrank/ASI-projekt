@@ -23,5 +23,5 @@ def splitting(rowsize):
         df.to_csv(out_csv,
                   index=False,
                   header=True,
-                  mode='a',  # append data to csv file
+                  mode='w',  # append data to csv file
                   chunksize=rowsize)  # size of data to append for each loop

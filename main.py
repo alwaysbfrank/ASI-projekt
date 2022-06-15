@@ -17,11 +17,11 @@ if __name__ == '__main__':
         #for...
         #appendingData.read_and_append('data/cutted/filename.csv')
         #trainModel.train()?
-        should_retrain = drift.should_retrain()
-        print(f'drift evaluation suggested that should retrain is {should_retrain}')
-        if should_retrain:
-            readModel.read()
+        if drift.should_retrain('rain') or drift.should_retrain('humidity'):
+            print(f'Model is being retrained on batch {batch_no}')
             trainModel.train()
+        else:
+            print(f'On batch {batch_no} model will not be retrained')
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

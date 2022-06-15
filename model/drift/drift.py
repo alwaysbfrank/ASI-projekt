@@ -2,20 +2,19 @@ import pandas as pd
 import numpy as np
 
 
-def should_retrain():
-    #todo seperate metrics for humidity and rain
+def should_retrain(prediction):
     eval_results = pd.read_csv('data/model_eval.csv', parse_dates=['time_stamp'], dayfirst=True)
-    last_rmse, rest_rmse = get_metric('RMSE', eval_results)
+    last_rmse, rest_rmse = get_metric(f'{prediction}_RMSE', eval_results)
     has_rmse_drifted = has_drifted(last_rmse, rest_rmse)
     if has_rmse_drifted:
-        print(f'last RMSE: {last_rmse} suggests drift, should retrain')
+        print(f'last {prediction}_RMSE: {last_rmse} suggests drift, should retrain')
         return True
 
-    last_r2, rest_r2 = get_metric('r2', eval_results)
+    last_r2, rest_r2 = get_metric(f'{prediction}_r2', eval_results)
     has_r2_drifted = has_drifted(last_r2, rest_r2, False)
 
     if has_r2_drifted:
-        print(f'last r2: {last_r2} suggests drift, should retrain')
+        print(f'last {prediction}_r2: {last_r2} suggests drift, should retrain')
     return has_r2_drifted
 
 
