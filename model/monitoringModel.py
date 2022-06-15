@@ -7,7 +7,7 @@ import os.path
 import glob
 
 
-def monitoring():
+def monitoring(batch_no):
     # Load model
     # model = pickle.load(open("model/model_2022-12-06_15-47-48.pkl", 'rb'))
 
@@ -19,34 +19,41 @@ def monitoring():
 
 
     # Read test data
-    batch_no = 4
-    test_data = pd.read_csv('data/AUS_Test.csv')
+    test_data = pd.read_csv(f'data/cutted/weatherAUS_{batch_no}.csv')
 
     X = test_data['Humidity3pm'].values.reshape(-1,1)
     y = test_data['RainTomorrow'].values.reshape(-1,1)
 
-    # Predict
-    predictions = model.predict(y)
-
-    # Evaluate
-    RMSE = np.sqrt(mean_squared_error(y, predictions))
-    r2 = r2_score(y, predictions)
-    print('RMSE on test data: ', RMSE)
-    print('r2 on test data: ', r2)
-
-    # Create the evaluation dataframe
     eval_df = pd.DataFrame()
-
-    now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-
-    eval_df = eval_df.append({'time_stamp':now, 'version': '1.0', 'batch': batch_no, 'metric': 'RMSE', 'score': RMSE}, ignore_index=True)
-    eval_df = eval_df.append({'time_stamp':now, 'version': '1.0', 'batch': batch_no, 'metric': 'r2', 'score': r2}, ignore_index=True)
+    evaluate_metrics(batch_no, last_file_timestamp, model, y, 'rain', eval_df)
+    evaluate_metrics(batch_no, last_file_timestamp, model, X, 'humidity', eval_df)
 
     # Save evaluation to file
-    evaluation_file_name = 'data/model_eval_' + last_file_timestamp + '.csv'
+    evaluation_file_name = 'data/model_eval.csv'
 
     if os.path.isfile(evaluation_file_name):
         eval_df.to_csv(evaluation_file_name, mode='a', index=False, header=False)
     else:
         eval_df.to_csv(evaluation_file_name, index=False)
+
+    test_data.to_csv('data/weatherAUS_current_all.csv', mode='a', idex=False, header=False)
     return batch_no
+
+
+def evaluate_metrics(batch_no, last_file_timestamp, model, values, metric_name, eval_df):
+    # Predict
+    predictions = model.predict(values)
+    # Evaluate
+    RMSE = np.sqrt(mean_squared_error(values, predictions))
+    r2 = r2_score(values, predictions)
+    print('RMSE on test data: ', RMSE)
+    print('r2 on test data: ', r2)
+    # Create the evaluation dataframe
+    now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    eval_df = eval_df.append(
+        {'time_stamp': now, 'version': last_file_timestamp, 'batch': batch_no, 'metric': f'{metric_name}_RMSE', 'score': RMSE},
+        ignore_index=True)
+    eval_df = eval_df.append(
+        {'time_stamp': now, 'version': last_file_timestamp, 'batch': batch_no, 'metric': f'{metric_name}_r2', 'score': r2},
+        ignore_index=True)
+    return eval_df

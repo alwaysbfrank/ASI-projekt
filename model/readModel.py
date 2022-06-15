@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import shutil
 
 
 def read():
@@ -7,7 +8,7 @@ def read():
     # test
     # df = pd.read_csv('data/weatherAUSTest.csv')
     # not test
-    df = pd.read_csv('data/weatherAUS_starter.csv')
+    df = pd.read_csv('data/weatherAUS_current_all.csv')
     # print('Size of weather data frame is :', df.shape)
     df.count().sort_values()
     df = df.drop(columns=['Sunshine', 'Evaporation', 'Cloud3pm', 'Cloud9am', 'Location', 'Date'], axis=1)
@@ -31,3 +32,7 @@ def read():
     # df.to_csv('data/AUS_Test.csv', index=False)
     # not test
     df.to_csv('data/AUS_Prepared.csv', index=False)
+
+
+def initialize():
+    shutil.copyfile('data/weatherAUS_starter.csv', 'data/weatherAUS_current_all.csv')

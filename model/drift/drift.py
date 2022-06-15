@@ -3,6 +3,7 @@ import numpy as np
 
 
 def should_retrain():
+    #todo seperate metrics for humidity and rain
     eval_results = pd.read_csv('data/model_eval.csv', parse_dates=['time_stamp'], dayfirst=True)
     last_rmse, rest_rmse = get_metric('RMSE', eval_results)
     has_rmse_drifted = has_drifted(last_rmse, rest_rmse)
