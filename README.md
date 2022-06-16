@@ -11,3 +11,7 @@ Przed uruchomieniem kodów stwórz odpowiednie środowisko `conda`.
 2. pobierz plik `environment.yml`
 3. stwórz środowisko: `$ conda env create -f environment.yml`
 4. aktywuj środowisko: `$ conda activate ASI`
+
+# docker
+docker build -f Dockerfile .
+docker run {container id}
