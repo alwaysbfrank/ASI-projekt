@@ -1,14 +1,13 @@
-# Press the green button in the gutter to run the script.
 from model import readModel, trainModel, evaluateModel, monitoringModel, splitter, appendingData
 from model.drift import drift
 
 if __name__ == '__main__':
-    #splitting second file
+    #splitting the second file
     splitter.splitting(500)
-    #first read
+    #first read from dataset
     readModel.initialize()
     readModel.read()
-    #train
+    #train on the dataset
     trainModel.train()
     # evaluateModel.evaluate()
     for batch_no in range(0, 112):
@@ -23,5 +22,3 @@ if __name__ == '__main__':
         else:
             print(f'On batch {batch_no} model will not be retrained')
 
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/

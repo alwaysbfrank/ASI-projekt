@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-
+# Read and append data
 def read_and_append(file):
     df = pd.read_csv(file)
     df.count().sort_values()
@@ -14,6 +14,7 @@ def read_and_append(file):
     df['RainTomorrow'].replace({'No': 0, 'Yes': 1}, inplace=True)
     categorical_columns = ['WindGustDir', 'WindDir3pm', 'WindDir9am']
     df = pd.get_dummies(df, columns=categorical_columns)
+#using sklearn
     from sklearn import preprocessing
     scaler = preprocessing.MinMaxScaler()
     scaler.fit(df)

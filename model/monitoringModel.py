@@ -33,7 +33,7 @@ def monitoring(batch_no):
     eval_df = evaluate_metrics(batch_no, last_file_timestamp, model, y, 'rain', eval_df)
     eval_df = evaluate_metrics(batch_no, last_file_timestamp, model, X, 'humidity', eval_df)
 
-    # Save evaluation to file
+# Save evaluation to particular(hardcoded) file
     evaluation_file_name = 'data/model_eval.csv'
 
     if os.path.isfile(evaluation_file_name):
@@ -45,14 +45,14 @@ def monitoring(batch_no):
 
 
 def evaluate_metrics(batch_no, last_file_timestamp, model, values, metric_name, eval_df):
-    # Predict
+# Prediction
     predictions = model.predict(values)
-    # Evaluate
+# Evaluation
     RMSE = np.sqrt(mean_squared_error(values, predictions))
     r2 = r2_score(values, predictions)
     print('RMSE on test data: ', RMSE)
     print('r2 on test data: ', r2)
-    # Create the evaluation dataframe
+# Create the evaluation dataframe
     now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     eval_df = eval_df.append(
         {'time_stamp': now, 'version': last_file_timestamp, 'batch': batch_no, 'metric': f'{metric_name}_RMSE', 'score': RMSE},

@@ -7,16 +7,15 @@ from datetime import date, datetime
 
 def evaluate():
     df = pd.read_csv('data/AUS_Test.csv')
-    #X = df['Humidity3pm'].values.reshape(-1, 1)
     y = df['RainTomorrow'].values.reshape(-1, 1)
 
-    # Load model
+# Loading the data model
     model = pickle.load(open("model/model_1.2.pkl", 'rb'))
 
-    # Predict
+# Prediction
     predictions = model.predict(y)
 
-    # Evaluate
+# Evaluation
     RMSE = np.sqrt(mean_squared_error(y, predictions))
     r2 = r2_score(y, predictions)
     print('RMSE on test data: ', RMSE)

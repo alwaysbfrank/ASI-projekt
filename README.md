@@ -1,25 +1,24 @@
-# ASI-projekt
-
-instrukcja z githuba wykładowcy:
 # ASI_2022
  Architektury i metodologie wdrożeń systemów SI. 
 
 Przed uruchomieniem kodów stwórz odpowiednie środowisko `conda`.
 
-1. zainstaluj pakiet `conda`
-2. pobierz plik `environment.yml`
-3. stwórz środowisko: `$ conda env create -f environment.yml`
-4. aktywuj środowisko: `$ conda activate ASI`
+1. Install bundle `conda`
+2. Download file `environment.yml`
+3. Create environment: `$ conda env create -f environment.yml`
+4. Activate Environment: `$ conda activate ASI-projekt`
 
-# docker
-docker build -f Dockerfile .
-docker run {container id}
+# docker setup
+1. docker build -f Dockerfile .
+2. docker run {container id}
 
-# przebieg
-1. przygotowanie danych początkowych (wydzielenie 'batchy', które będą symulować napływanie nowych danych)
-2. wytrenowanie modelu (jaki model?)
-3. sprawdzenie dryfu na dwóch przewidywanych danych (na dwóch metrykach każda - r2 i rbms(?)) dla nowego batchu
-4. jeśli wystapił dryf to wytrenowanie nowego modelu na wszystkich danych, które spłynęły do tej pory
+# application flow
+1. Preparing initial data (separate batches to simulate the incoming flow of new data)
+2. Training the data model using logistic regression.
+3. Checking the drift on two predicted data sets (on two metrics each - r2 and rbms for new batch)
+4. If there is a drift, train a new model on all the data that has come in so far.
 
-# struktura
-struktura uruchomienia -> docker buduje obraz z użyciem miniconda3, która instaluje pythona i inne zależności
+# structure
+run structure -> docker builds an image using miniconda3 which installs python and other dependencies
+
+

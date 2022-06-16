@@ -23,6 +23,6 @@ def train():
     print('Time taken :', time.time() - t0)
 
     print('...Exporting the model...')
-    #timestamp
+    #timestamp setting for current date
     now = datetime.now().strftime("%Y-%d-%m_%H-%M-%S")
     pickle.dump(clf_logreg, open('model/model_'+now+'.pkl', 'wb'))

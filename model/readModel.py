@@ -4,12 +4,8 @@ import shutil
 
 
 def read():
-    # Read data
-    # test
-    # df = pd.read_csv('data/weatherAUSTest.csv')
-    # not test
+# Read data
     df = pd.read_csv('data/weatherAUS_current_all.csv')
-    # print('Size of weather data frame is :', df.shape)
     df.count().sort_values()
     df = df.drop(columns=['Sunshine', 'Evaporation', 'Cloud3pm', 'Cloud9am', 'Location', 'Date'], axis=1)
     df = df.dropna(how='any')
@@ -27,10 +23,7 @@ def read():
 
     df = df[['Humidity3pm', 'Rainfall', 'RainToday', 'RainTomorrow']]
 
-    # Save the data
-    # test
-    # df.to_csv('data/AUS_Test.csv', index=False)
-    # not test
+# Save the data
     df.to_csv('data/AUS_Prepared.csv', index=False)
 
 
