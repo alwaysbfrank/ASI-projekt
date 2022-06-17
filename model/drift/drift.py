@@ -19,8 +19,8 @@ def should_retrain(prediction):
 
 
 def get_metric(metric, csv):
-    last_evaluation_timestamp = csv['time_stamp'].max()
     all = csv[csv['metric']==metric]
+    last_evaluation_timestamp = all['time_stamp'].max()
     last = all[all['time_stamp']==last_evaluation_timestamp]['score'].values[0]
     other = all[all['time_stamp']!=last_evaluation_timestamp]['score'].values
     return last, other
