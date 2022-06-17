@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-#checking whether retrain should be processed
+
 def should_retrain(prediction):
     eval_results = pd.read_csv('data/model_eval.csv', parse_dates=['time_stamp'], dayfirst=True)
     last_rmse, rest_rmse = get_metric(f'{prediction}_RMSE', eval_results)
@@ -17,7 +17,7 @@ def should_retrain(prediction):
         print(f'last {prediction}_r2: {last_r2} suggests drift, should retrain')
     return has_r2_drifted
 
-#getting metric
+
 def get_metric(metric, csv):
     last_evaluation_timestamp = csv['time_stamp'].max()
     all = csv[csv['metric']==metric]

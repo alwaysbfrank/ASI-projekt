@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 import shutil
+from sklearn import preprocessing
 
 
-def read():
-# Read data
+def process_data():
     df = pd.read_csv('data/weatherAUS_current_all.csv')
     df.count().sort_values()
     df = df.drop(columns=['Sunshine', 'Evaporation', 'Cloud3pm', 'Cloud9am', 'Location', 'Date'], axis=1)
@@ -16,14 +16,11 @@ def read():
     df['RainTomorrow'].replace({'No': 0, 'Yes': 1}, inplace=True)
     categorical_columns = ['WindGustDir', 'WindDir3pm', 'WindDir9am']
     df = pd.get_dummies(df, columns=categorical_columns)
-    from sklearn import preprocessing
     scaler = preprocessing.MinMaxScaler()
     scaler.fit(df)
     df = pd.DataFrame(scaler.transform(df), index=df.index, columns=df.columns)
 
     df = df[['Humidity3pm', 'Rainfall', 'RainToday', 'RainTomorrow']]
-
-# Save the data
     df.to_csv('data/AUS_Prepared.csv', index=False)
 
 
